@@ -12,10 +12,8 @@ import './App.css';
 class App extends Component {
     render() {
         return (
-            <div className="App" id="global">
-                <div id="powerup">
-                    <Map />
-                </div>
+            <div>
+                <Map />
             </div>
         );
     }
