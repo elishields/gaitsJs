@@ -40,39 +40,42 @@ class MapData extends Component {
         super(props);
 
         this.state = {
-            dataKey: "test",
-            dataValue: "test"
+            dataKey: "",
+            dataValue: ""
         };
 
         // Binds reference to this to member functions
-        this.getData = this.getData.bind(this);
-        this.gotData = this.gotData.bind(this);
+        this.callData = this.callData.bind(this);
+        this.setData = this.setData.bind(this);
     };
 
-    getData = function() {
+    callData = function() {
         let call = new XMLHttpRequest();
-        console.log("call");
         let url = "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01";
 
         let cleanedDataKey = "";
         let cleanedDataValue = "";
 
-            call.onreadystatechange = function () {
+        call.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let dataArray = JSON.parse(this.responseText);
                 cleanedDataKey = dataArray.dataset.data[0][0];
                 cleanedDataValue = dataArray.dataset.data[0][1];
                 console.log(cleanedDataKey);
+                console.log(cleanedDataValue);
+                //this.setData(cleanedDataKey, cleanedDataValue);
             }
         };
 
         call.open("GET", url, true);
         call.send();
 
-        this.gotData(cleanedDataKey, cleanedDataValue);
+        console.log(cleanedDataKey);
+        console.log(cleanedDataValue);
     };
 
-    gotData = function(dataKey, dataValue) {
+    setData = function(dataKey, dataValue) {
+        console.log("setData called");
         this.setState({
             dataKey: dataKey,
             dataValue: dataValue
@@ -85,10 +88,10 @@ class MapData extends Component {
                 <input
                     type="submit"
                     value="get data"
-                    onClick={this.getData}
+                    onClick={this.callData}
                 />
-                <p>{this.state.dataKey}</p>
-                <p>{this.state.dataValue}</p>
+                <p>Key:{this.state.dataKey}</p>
+                <p>Value:{this.state.dataValue}</p>
             </div>
         )
     };
