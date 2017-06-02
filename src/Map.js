@@ -4,8 +4,37 @@ import React, { Component } from 'react';
 // Import styling
 import './App.css';
 
-/* Determines which dataset to call. Calls that dataset. */
-class MapData extends React.Component {
+/*
+ * Renders the Map component,
+ * which is a return of the MapData component.
+ * Called by App component.
+ * Receives no props.
+ * Passes no props.
+ * Stateless component.
+ */
+export class Map extends Component {
+
+    // Functionless and stateless constructor.
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        };
+    };
+
+    render() {
+        return (
+            <MapData />
+        );
+    };
+}
+
+/*
+* Renders the MapData component,
+* which is a return of a data call to Quandl's API.
+*/
+class MapData extends Component {
 
     constructor(props) {
         super(props);
@@ -14,46 +43,55 @@ class MapData extends React.Component {
             dataKey: "test",
             dataValue: "test"
         };
-    }
-/*
-    dataCall = function() {
-        let dataset = "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01";
 
-        fetch(dataset)
-            .then((resp) => resp.json())
-            .then(function() {
-                // Your code for handling the data you get from the API
-            })
-            .catch(function() {
-                // This is where you run code if the server returns any errors
-            });
-    }
-*/
+        // Binds reference to this to member functions
+        this.getData = this.getData.bind(this);
+        this.gotData = this.gotData.bind(this);
+    };
+
+    getData = function() {
+        let call = new XMLHttpRequest();
+        console.log("call");
+        let url = "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01";
+
+        let cleanedDataKey = "";
+        let cleanedDataValue = "";
+
+            call.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let dataArray = JSON.parse(this.responseText);
+                cleanedDataKey = dataArray.dataset.data[0][0];
+                cleanedDataValue = dataArray.dataset.data[0][1];
+                console.log(cleanedDataKey);
+            }
+        };
+
+        call.open("GET", url, true);
+        call.send();
+
+        this.gotData(cleanedDataKey, cleanedDataValue);
+    };
+
+    gotData = function(dataKey, dataValue) {
+        this.setState({
+            dataKey: dataKey,
+            dataValue: dataValue
+        });
+    };
 
     render() {
         return (
             <div>
-                <p>a {this.state.dataKey}</p>
-                <p>b {this.state.dataValue}</p>
+                <input
+                    type="submit"
+                    value="get data"
+                    onClick={this.getData}
+                />
+                <p>{this.state.dataKey}</p>
+                <p>{this.state.dataValue}</p>
             </div>
         )
-    }
-}
-
-export class Map extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-        }
-    }
-
-    render() {
-        return (
-            <MapData />
-        );
-    }
+    };
 }
 
 export default Map;
