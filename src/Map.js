@@ -1,6 +1,9 @@
 // Import classes from React
 import React, { Component } from "react";
 
+// Import components and objects
+import {APIarray} from "./APIarray";
+
 // Import styling
 import "./App.css";
 
@@ -73,9 +76,11 @@ class MapCallData extends Component {
         };
 
         // Binds reference to this to member functions
-        this.callData = this.callData.bind(this);
+        //this.callData = this.callData.bind(this);
+        this.callDataSelect = this.callDataSelect.bind(this);
     };
 
+/*
     // Calls data from Quandl's API
     callData = () => {
         let call = new XMLHttpRequest();
@@ -99,15 +104,55 @@ class MapCallData extends Component {
         call.open("GET", url, true);
         call.send();
     };
+*/
+
+    callDataSelect = () => {
+        let call = new XMLHttpRequest();
+        let urlArray = [
+            "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01",
+            "https://www.quandl.com/api/v3/datasets/FRED/CPIUFDSL.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=quarterly&start_date=2016-04-01",
+            "https://www.quandl.com/api/v3/datasets/FRED/UNEMPLOY.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-12-31"
+        ];
+        let dataSelectMenuValue = document.getElementById("data-select-menu").value;
+        let url = urlArray[dataSelectMenuValue];
+
+        var cleanedDataSet = [];
+
+        call.onreadystatechange = () => {
+            if (call.readyState === 4 && call.status === 200) {
+                let dataArray = JSON.parse(call.responseText);
+                let cleanedDataKey = dataArray.dataset.data[0][0];
+                let cleanedDataValue = dataArray.dataset.data[0][1];
+                cleanedDataSet = [cleanedDataKey, cleanedDataValue];
+                this.setState({
+                    dataKey: cleanedDataSet[0],
+                    dataValue: cleanedDataSet[1]
+                });
+            }
+        };
+
+        call.open("GET", url, true);
+        call.send();
+    };
 
     render() {
         return (
             <div>
+                {/*
                 <input
                     type="submit"
                     value="get the data"
                     onClick={this.callData}
                 />
+                */}
+                <select
+                    onChange={this.callDataSelect}
+                    id="data-select-menu"
+                >
+                    <option value="0">GDP</option>
+                    <option value="1">CPI</option>
+                    <option value="2">U6</option>
+                </select>
                 <MapSetData
                     dataKey={this.state.dataKey}
                     dataValue={this.state.dataValue}
@@ -119,11 +164,10 @@ class MapCallData extends Component {
 
 /*
     * MapSetData.
-    * Renders the MapSetData component
-    *   which is a return of the setData element.
+    * Renders the <MapSetData />
+    *   which is a return of the props received from <MapCallData />
     * Called by <MapCallData />
     * Receives props from MapCallData.
-    * State is updated by the data returned by MapCallData.
  */
 class MapSetData extends Component {
 
@@ -131,8 +175,6 @@ class MapSetData extends Component {
         super(props);
 
         this.state = {
-            dataKey: props.dataKey,
-            dataValue: props.dataValue
         };
     };
 
