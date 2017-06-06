@@ -76,10 +76,11 @@ class MapCallData extends Component {
         };
 
         // Binds reference to this to member functions
-        this.callData = this.callData.bind(this);
+        //this.callData = this.callData.bind(this);
         this.callDataSelect = this.callDataSelect.bind(this);
     };
 
+/*
     // Calls data from Quandl's API
     callData = () => {
         let call = new XMLHttpRequest();
@@ -103,6 +104,7 @@ class MapCallData extends Component {
         call.open("GET", url, true);
         call.send();
     };
+*/
 
     callDataSelect = () => {
         let call = new XMLHttpRequest();
@@ -136,11 +138,13 @@ class MapCallData extends Component {
     render() {
         return (
             <div>
-                {/*<input
+                {/*
+                <input
                     type="submit"
                     value="get the data"
                     onClick={this.callData}
-                />*/}
+                />
+                */}
                 <select
                     onChange={this.callDataSelect}
                     id="data-select-menu"
