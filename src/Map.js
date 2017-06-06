@@ -71,43 +71,14 @@ class MapCallData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataKey1: 0,
-            dataValue1: 0,
-            dataKey2: 0,
-            dataValue2: 0,
-            dataGrowth: 0
+            dataSet1: [],
+            dataSet2: []
         };
 
         // Binds reference to this to member functions
         //this.callData = this.callData.bind(this);
         this.callDataSelect = this.callDataSelect.bind(this);
     };
-
-/*
-    // Calls data from Quandl's API
-    callData = () => {
-        let call = new XMLHttpRequest();
-        let url = "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01";
-
-        var cleanedDataSet = [];
-
-        call.onreadystatechange = () => {
-            if (call.readyState === 4 && call.status === 200) {
-                let dataArray = JSON.parse(call.responseText);
-                let cleanedDataKey = dataArray.dataset.data[0][0];
-                let cleanedDataValue = dataArray.dataset.data[0][1];
-                cleanedDataSet = [cleanedDataKey, cleanedDataValue];
-                this.setState({
-                    dataKey: cleanedDataSet[0],
-                    dataValue: cleanedDataSet[1]
-                });
-            }
-        };
-
-        call.open("GET", url, true);
-        call.send();
-    };
-*/
 
     callDataSelect = () => {
         let call = new XMLHttpRequest();
@@ -134,15 +105,9 @@ class MapCallData extends Component {
                 let cleanedDataValue2 = dataArray.dataset.data[1][1];
                 cleanedDataSet2 = [cleanedDataKey2, cleanedDataValue2];
 
-                let cleanedDataSetGrowth = ((cleanedDataValue1 - cleanedDataValue2) / cleanedDataValue2) * 100;
-                cleanedDataSetGrowth = cleanedDataSetGrowth.toFixed(2);
-
                 this.setState({
-                    dataKey1: cleanedDataSet1[0],
-                    dataValue1: cleanedDataSet1[1],
-                    dataKey2: cleanedDataSet2[0],
-                    dataValue2: cleanedDataSet2[1],
-                    dataGrowth: cleanedDataSetGrowth
+                    dataSet1: cleanedDataSet1,
+                    dataSet2: cleanedDataSet2
                 });
             }
         };
@@ -154,13 +119,6 @@ class MapCallData extends Component {
     render() {
         return (
             <div>
-                {/*
-                <input
-                    type="submit"
-                    value="get the data"
-                    onClick={this.callData}
-                />
-                */}
                 <br/>
                 <select
                     onChange={this.callDataSelect}
@@ -170,12 +128,9 @@ class MapCallData extends Component {
                     <option value="1">CPI</option>
                     <option value="2">U6</option>
                 </select>
-                <MapSetData
-                    dataKey1={this.state.dataKey1}
-                    dataValue1={this.state.dataValue1}
-                    dataKey2={this.state.dataKey2}
-                    dataValue2={this.state.dataValue2}
-                    dataGrowth={this.state.dataGrowth}
+                <MapWorkData
+                    dataSet1={this.state.dataSet1}
+                    dataSet2={this.state.dataSet2}
                 />
             </div>
         )
@@ -183,11 +138,50 @@ class MapCallData extends Component {
 }
 
 /*
+    * MapWorkData.
+    * Called by <MapCallData /> with props passed.
+    * Renders <MapWorkData />
+    *   which modifies the data called in <MapCallData />
+    *   and renders <MapSetData /> with this modified data
+    *   passed in as props.
+*/
+class MapWorkData extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            dataGrowth1: 0,
+            dataGrowth2: 0
+        };
+
+        this.workData = this.workData.bind(this);
+    };
+
+    workData = () => {
+        let dataGrowth1 = ((this.props.dataSet1 - this.props.dataSet2) * 100);
+        dataGrowth1 = dataGrowth1.toFixed(2);
+
+        this.setState({
+            dataGrowth1: dataGrowth1
+        });
+    };
+
+    render() {
+        return (
+            <MapSetData
+                dataGrowth={this.state.dataGrowth1}
+                dataGrowth2={this.state.dataGrowth2}
+            />
+        )
+    };
+}
+
+/*
     * MapSetData.
-    * Renders the <MapSetData />
+    * Renders <MapSetData />
     *   which is a return of the props received from <MapCallData />
-    * Called by <MapCallData />
-    * Receives props from MapCallData.
+    * Called by <MapWorkData /> with props passed.
  */
 class MapSetData extends Component {
 
