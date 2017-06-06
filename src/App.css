@@ -1,3 +1,14 @@
 #global {
     font-family: "Courier New", serif;
+    margin: 25% auto;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+table, tr, th, td {
+    border: 1px solid #21c0c0;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 1.1em;
+    margin: 10% auto;
 }

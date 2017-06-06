@@ -71,8 +71,11 @@ class MapCallData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataKey: 0,
-            dataValue: 0
+            dataKey1: 0,
+            dataValue1: 0,
+            dataKey2: 0,
+            dataValue2: 0,
+            dataGrowth: 0
         };
 
         // Binds reference to this to member functions
@@ -116,17 +119,30 @@ class MapCallData extends Component {
         let dataSelectMenuValue = document.getElementById("data-select-menu").value;
         let url = urlArray[dataSelectMenuValue];
 
-        var cleanedDataSet = [];
+        var cleanedDataSet1 = [];
+        var cleanedDataSet2 = [];
 
         call.onreadystatechange = () => {
             if (call.readyState === 4 && call.status === 200) {
                 let dataArray = JSON.parse(call.responseText);
-                let cleanedDataKey = dataArray.dataset.data[0][0];
-                let cleanedDataValue = dataArray.dataset.data[0][1];
-                cleanedDataSet = [cleanedDataKey, cleanedDataValue];
+
+                let cleanedDataKey1 = dataArray.dataset.data[0][0];
+                let cleanedDataValue1 = dataArray.dataset.data[0][1];
+                cleanedDataSet1 = [cleanedDataKey1, cleanedDataValue1];
+
+                let cleanedDataKey2 = dataArray.dataset.data[1][0];
+                let cleanedDataValue2 = dataArray.dataset.data[1][1];
+                cleanedDataSet2 = [cleanedDataKey2, cleanedDataValue2];
+
+                let cleanedDataSetGrowth = ((cleanedDataValue1 - cleanedDataValue2) / cleanedDataValue2) * 100;
+                cleanedDataSetGrowth = cleanedDataSetGrowth.toFixed(2);
+
                 this.setState({
-                    dataKey: cleanedDataSet[0],
-                    dataValue: cleanedDataSet[1]
+                    dataKey1: cleanedDataSet1[0],
+                    dataValue1: cleanedDataSet1[1],
+                    dataKey2: cleanedDataSet2[0],
+                    dataValue2: cleanedDataSet2[1],
+                    dataGrowth: cleanedDataSetGrowth
                 });
             }
         };
@@ -145,6 +161,7 @@ class MapCallData extends Component {
                     onClick={this.callData}
                 />
                 */}
+                <br/>
                 <select
                     onChange={this.callDataSelect}
                     id="data-select-menu"
@@ -154,8 +171,11 @@ class MapCallData extends Component {
                     <option value="2">U6</option>
                 </select>
                 <MapSetData
-                    dataKey={this.state.dataKey}
-                    dataValue={this.state.dataValue}
+                    dataKey1={this.state.dataKey1}
+                    dataValue1={this.state.dataValue1}
+                    dataKey2={this.state.dataKey2}
+                    dataValue2={this.state.dataValue2}
+                    dataGrowth={this.state.dataGrowth}
                 />
             </div>
         )
@@ -175,14 +195,63 @@ class MapSetData extends Component {
         super(props);
 
         this.state = {
+            numToColour: this.props.dataGrowth
         };
+
+        this.colourIt = this.colourIt.bind(this);
+    };
+
+    componentDidMount() {
+        this.colourIt();
+    };
+
+    componentDidUpdate() {
+        this.colourIt();
+    };
+
+    colourIt = () => {
+        let colour = "grey";
+
+        if (this.props.dataGrowth > 2) {
+            colour = "green";
+            console.log(colour);
+        } else if (this.props.dataGrowth > 0) {
+            colour = "yellow";
+            console.log(colour);
+        } else {
+            colour = "red";
+            console.log(colour);
+        }
+
+        document.getElementById("usa").style.color = colour
     };
 
     render() {
         return (
             <div>
-                <p>Key:{this.props.dataKey}</p>
-                <p>Value:{this.props.dataValue}</p>
+                <table className="table">
+                    <tr className="table">
+                        <th className="table">Country</th>
+                        <th className="table">&#37;&#916;</th>
+                    </tr>
+                    <tr className="table">
+                        <td className="table" id="usa">'Mericuh!</td>
+                        <td className="table">{this.props.dataGrowth}</td>
+                    </tr>
+                    <tr className="table">
+                        <td className="table" id="usa">Ms. Watanabe</td>
+                        <td className="table">{this.props.dataGrowth}</td>
+                    </tr>
+                </table>
+
+                {/*<p>Key1 : {this.props.dataKey1}</p>
+                <p>Value1 : {this.props.dataValue1}</p>
+                <br/>
+                <p>Key2 : {this.props.dataKey2}</p>
+                <p>Value2 : {this.props.dataValue2}</p>
+                <br/>
+                <p>Growth : {this.props.dataGrowth}</p>*/}
+
             </div>
         )
     };
