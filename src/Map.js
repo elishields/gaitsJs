@@ -18,12 +18,14 @@ import "./App.css";
 */
 export class Map extends Component {
 
+    // Stateless and functionless constructor for <Map />
     constructor(props) {
         super(props);
         this.state = {
         };
     };
 
+    // Renders <MapData />
     render() {
         return (
             <MapData />
@@ -42,12 +44,14 @@ export class Map extends Component {
 */
 class MapData extends Component {
 
+    // Stateless and functionless constructor for <MapData />
     constructor(props) {
         super(props);
         this.state = {
         };
     };
 
+    // Renders <MapCallData />
     render() {
         return (
             <div>
@@ -70,44 +74,63 @@ class MapCallData extends Component {
 
     constructor(props) {
         super(props);
+
+        // State for current and previous datapoints
         this.state = {
-            dataSet1: [],
-            dataSet2: []
+            dataSetCurrent: [],
+            dataSetPrevious: []
         };
 
         // Binds reference to this to member functions
-        //this.callData = this.callData.bind(this);
-        this.callDataSelect = this.callDataSelect.bind(this);
+        this.callData = this.callData.bind(this);
     };
 
-    callDataSelect = () => {
+    // Calls data from Quandl API
+    // Sets the data into <MapCallData /> state
+    callData = () => {
+        // New object instance of XMLHttpRequest (XHR)
         let call = new XMLHttpRequest();
+        // String array of URL's to access Quandl's API
         let urlArray = [
             "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01",
             "https://www.quandl.com/api/v3/datasets/FRED/CPIUFDSL.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=quarterly&start_date=2016-04-01",
             "https://www.quandl.com/api/v3/datasets/FRED/UNEMPLOY.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-12-31"
         ];
+        // Evaluates which data option the user has selected from the select menu
         let dataSelectMenuValue = document.getElementById("data-select-menu").value;
+        // URL to call from urlArray, based on data option the user had selected
         let url = urlArray[dataSelectMenuValue];
 
-        var cleanedDataSet1 = [];
-        var cleanedDataSet2 = [];
+        // Empty arrays for storing datapoints returned by XHR, local to callData()
+        var cleanedDataSetCurrent = [];
+        var cleanedDataSetPrevious = [];
 
+        // Fires the XHR when the loading state of the document changes
+        // This is a parameterless fat-arrow function
         call.onreadystatechange = () => {
+            // If (XHR is finished and response is ready) and (status is ok)
             if (call.readyState === 4 && call.status === 200) {
+                // Parse the JSON responseText from the XHR
                 let dataArray = JSON.parse(call.responseText);
 
-                let cleanedDataKey1 = dataArray.dataset.data[0][0];
-                let cleanedDataValue1 = dataArray.dataset.data[0][1];
-                cleanedDataSet1 = [cleanedDataKey1, cleanedDataValue1];
+                // Access the most recent datapoint in the dataArray
+                // This access method (.dataset.data[][]) is not sustainable,
+                //   as it is written specifically for Quandl's data structure
+                let cleanedDataKeyCurrent = dataArray.dataset.data[0][0];
+                let cleanedDataValueCurrent = dataArray.dataset.data[0][1];
+                // Store the current dataKey and dataValue into a single array
+                cleanedDataSetCurrent = [cleanedDataKeyCurrent, cleanedDataValueCurrent];
 
-                let cleanedDataKey2 = dataArray.dataset.data[1][0];
-                let cleanedDataValue2 = dataArray.dataset.data[1][1];
-                cleanedDataSet2 = [cleanedDataKey2, cleanedDataValue2];
+                // Access the previous datapoint in the dataArray
+                let cleanedDataKeyPrevious = dataArray.dataset.data[1][0];
+                let cleanedDataValuePrevious = dataArray.dataset.data[1][1];
+                // Store the previous dataKey and dataValue into a single array
+                cleanedDataSetPrevious = [cleanedDataKeyPrevious, cleanedDataValuePrevious];
 
+                // Set datapoint arrays as state of <MapCallData />
                 this.setState({
-                    dataSet1: cleanedDataSet1,
-                    dataSet2: cleanedDataSet2
+                    dataSetCurrent: cleanedDataSetCurrent,
+                    dataSetPrevious: cleanedDataSetPrevious
                 });
             }
         };
@@ -121,7 +144,7 @@ class MapCallData extends Component {
             <div>
                 <br/>
                 <select
-                    onChange={this.callDataSelect}
+                    onChange={this.callData}
                     id="data-select-menu"
                 >
                     <option value="0">GDP</option>
@@ -129,8 +152,8 @@ class MapCallData extends Component {
                     <option value="2">U6</option>
                 </select>
                 <MapWorkData
-                    dataSet1={this.state.dataSet1}
-                    dataSet2={this.state.dataSet2}
+                    dataSetCurrent={this.state.dataSetCurrent}
+                    dataSetPrevious={this.state.dataSetPrevious}
                 />
             </div>
         )
@@ -139,39 +162,53 @@ class MapCallData extends Component {
 
 /*
     * MapWorkData.
-    * Called by <MapCallData /> with props passed.
     * Renders <MapWorkData />
     *   which modifies the data called in <MapCallData />
     *   and renders <MapSetData /> with this modified data
     *   passed in as props.
+    * Called by <MapCallData /> with props passed.
 */
 class MapWorkData extends Component {
 
     constructor(props) {
         super(props);
 
+        // State for growth rate between current and previous datapoints
         this.state = {
-            dataGrowth1: 0,
-            dataGrowth2: 0
+            dataGrowth: 0.00
         };
 
+        // Binds reference to this to member functions
         this.workData = this.workData.bind(this);
     };
 
+    // Invoked immediately after the component is mounted
+    componentDidMount() {
+        this.workData();
+        console.log(this.state.dataGrowth);
+    };
+
+    // Invoked immediately after updating occurs
+    componentDidUpdate() {
+        this.workData();
+    };
+
+    // Calculates growth rate between current and previous datapoints
     workData = () => {
-        let dataGrowth1 = ((this.props.dataSet1 - this.props.dataSet2) * 100);
-        dataGrowth1 = dataGrowth1.toFixed(2);
+        console.log(this.props.dataSetCurrent[1]);
+        let dataGrowth = (((this.props.dataSetCurrent[1] - this.props.dataSetPrevious[1]) / this.props.dataSetPrevious[1]) * 100);
+        console.log(dataGrowth);
+        dataGrowth = dataGrowth.toFixed(2);
 
         this.setState({
-            dataGrowth1: dataGrowth1
+            dataGrowth: dataGrowth
         });
     };
 
     render() {
         return (
             <MapSetData
-                dataGrowth={this.state.dataGrowth1}
-                dataGrowth2={this.state.dataGrowth2}
+                dataGrowth={this.state.dataGrowth}
             />
         )
     };
@@ -180,7 +217,7 @@ class MapWorkData extends Component {
 /*
     * MapSetData.
     * Renders <MapSetData />
-    *   which is a return of the props received from <MapCallData />
+    *   which is a return of the props received from <MapWorkData />
     * Called by <MapWorkData /> with props passed.
  */
 class MapSetData extends Component {
@@ -188,64 +225,55 @@ class MapSetData extends Component {
     constructor(props) {
         super(props);
 
+        // State for current and previous datapoints
         this.state = {
             numToColour: this.props.dataGrowth
         };
 
+        // Binds reference to this to member functions
         this.colourIt = this.colourIt.bind(this);
     };
 
+    // Invoked immediately after the component is mounted
     componentDidMount() {
         this.colourIt();
     };
 
+    // Invoked immediately after updating occurs
     componentDidUpdate() {
         this.colourIt();
     };
 
+    // Colours the country-name by manipulating the DOM post-render
     colourIt = () => {
         let colour = "grey";
 
-        if (this.props.dataGrowth > 2) {
+        // Colour determined by growth rate passed in as props from <MapWorkData />
+        if (this.state.numToColour > 2.00) {
             colour = "green";
-            console.log(colour);
-        } else if (this.props.dataGrowth > 0) {
+            console.log(this.state.numToColour);
+        } else if (this.state.numToColour > 0.00) {
             colour = "yellow";
-            console.log(colour);
-        } else {
+            console.log(this.state.numToColour);
+        } else if (this.state.numToColour <= 0) {
             colour = "red";
-            console.log(colour);
+            console.log(this.state.numToColour);
+        } else {
+            colour = "grey";
+            console.log(this.state.numToColour);
         }
 
+        // Manipulates DOm
         document.getElementById("usa").style.color = colour
+        console.log("colourit ran");
     };
 
     render() {
         return (
             <div>
-                <table className="table">
-                    <tr className="table">
-                        <th className="table">Country</th>
-                        <th className="table">&#37;&#916;</th>
-                    </tr>
-                    <tr className="table">
-                        <td className="table" id="usa">'Mericuh!</td>
-                        <td className="table">{this.props.dataGrowth}</td>
-                    </tr>
-                    <tr className="table">
-                        <td className="table" id="usa">Ms. Watanabe</td>
-                        <td className="table">{this.props.dataGrowth}</td>
-                    </tr>
-                </table>
-
-                {/*<p>Key1 : {this.props.dataKey1}</p>
-                <p>Value1 : {this.props.dataValue1}</p>
+                <p>USA</p>
                 <br/>
-                <p>Key2 : {this.props.dataKey2}</p>
-                <p>Value2 : {this.props.dataValue2}</p>
-                <br/>
-                <p>Growth : {this.props.dataGrowth}</p>*/}
-
+                <p id="usa">Growth : {this.state.numToColour}</p>
             </div>
         )
     };
