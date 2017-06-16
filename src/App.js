@@ -14,6 +14,9 @@ class App extends Component {
         return (
             <div id="global">
                 <Map />
+                {/*
+                <Panel />
+                */}
             </div>
         );
     }

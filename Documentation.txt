@@ -1,0 +1,9 @@
+'let' is used to keep variables local
+'var' is used to make variables global
+
+// This is a fat arrow function
+// This example is parameterless
+// It is a cleaner function syntax
+functionName = () => {
+
+}

@@ -28,7 +28,11 @@ export class Map extends Component {
     // Renders <MapData />
     render() {
         return (
-            <MapData />
+            <div className="row">
+                <div className="col-xs-12 col-md-8">
+                    <MapData />
+                </div>
+            </div>
         );
     };
 }
@@ -76,6 +80,7 @@ class MapCallData extends Component {
         super(props);
 
         // State for current and previous datapoints
+        // State as array type
         this.state = {
             dataSetCurrent: [],
             dataSetPrevious: []
@@ -85,12 +90,12 @@ class MapCallData extends Component {
         this.callData = this.callData.bind(this);
     };
 
-    // Calls data from Quandl API
+    // Calls JSON data from Quandl API
     // Sets the data into <MapCallData /> state
     callData = () => {
         // New object instance of XMLHttpRequest (XHR)
         let call = new XMLHttpRequest();
-        // String array of URL's to access Quandl's API
+        // Array of string URL's to access Quandl's API
         let urlArray = [
             "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01",
             "https://www.quandl.com/api/v3/datasets/FRED/CPIUFDSL.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=quarterly&start_date=2016-04-01",
@@ -184,19 +189,22 @@ class MapWorkData extends Component {
 
     // Invoked immediately after the component is mounted
     componentDidMount() {
-        this.workData();
+        this.workData;
         console.log(this.state.dataGrowth);
     };
 
     // Invoked immediately after updating occurs
     componentDidUpdate() {
-        this.workData();
+        this.workData;
     };
 
     // Calculates growth rate between current and previous datapoints
     workData = () => {
         console.log(this.props.dataSetCurrent[1]);
-        let dataGrowth = (((this.props.dataSetCurrent[1] - this.props.dataSetPrevious[1]) / this.props.dataSetPrevious[1]) * 100);
+        // (Y2-Y1)/Y1
+        let dataGrowth = ((this.props.dataSetCurrent[1] - this.props.dataSetPrevious[1]) / this.props.dataSetPrevious[1]);
+        // Represent as percent
+        dataGrowth = (dataGrowth * 100);
         console.log(dataGrowth);
         dataGrowth = dataGrowth.toFixed(2);
 
@@ -236,12 +244,12 @@ class MapSetData extends Component {
 
     // Invoked immediately after the component is mounted
     componentDidMount() {
-        this.colourIt();
+        this.colourIt;
     };
 
     // Invoked immediately after updating occurs
     componentDidUpdate() {
-        this.colourIt();
+        this.colourIt;
     };
 
     // Colours the country-name by manipulating the DOM post-render
@@ -264,7 +272,7 @@ class MapSetData extends Component {
         }
 
         // Manipulates DOm
-        document.getElementById("usa").style.color = colour
+        document.getElementById("usa").style.color = colour;
         console.log("colourit ran");
     };
 
