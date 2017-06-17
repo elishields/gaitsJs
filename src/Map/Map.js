@@ -2,9 +2,9 @@
 import React, { Component } from "react";
 
 // Import components and objects
-import {MapData} from "./MapData";
-import {MapMenu} from "./MapMenu";
-import {APIarray} from "../APIarray";
+import { MapData } from "./MapData";
+import { MapMenu } from "./MapMenu";
+// import { APIarray } from "../APIarray";
 
 // Import styling
 import "../App.css";
@@ -12,7 +12,8 @@ import "../App.css";
 /*
     * Map.
     * Renders <Map />
-    *   which is a return of <MapData />
+    *   which is a return of
+    *   <MapData /> and <MapMenu />
     * Called by <App />
     * No props.
     * No state.
@@ -32,10 +33,10 @@ export class Map extends Component {
             <div className="row">
                 <div className="col-xs-12 col-md-8">
                     <MapData />
-                    {/*<MapMenu />*/}
+                    <MapMenu />
                 </div>
             </div>
-        );
+        )
     };
 }
 

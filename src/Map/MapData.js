@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 // Import components and objects
-import {APIarray} from "../APIarray";
+// import { APIarray } from "../APIarray";
 
 // Import styling
 import "../App.css";
@@ -15,7 +15,7 @@ import "../App.css";
     * No props.
     * No state.
 */
-class MapData extends Component {
+export class MapData extends Component {
 
     // Stateless and functionless constructor for <MapData />
     constructor(props) {
@@ -163,7 +163,7 @@ class MapWorkData extends Component {
         // This function call has no parentheses as it appears that JS calls the function
         // as soon as it is read, even if componentDidMount is false
         // The order in which JS is called is not fully understood
-        this.workData;
+        this.workData();
         console.log(this.state.dataGrowth);
     };
 
@@ -171,7 +171,7 @@ class MapWorkData extends Component {
     // Updating occurs when updated props are received
     // Updated props are received when <MapCallData /> updates its state
     componentDidUpdate() {
-        this.workData;
+        this.workData();
     };
 
     // Calculates growth rate between current and previous datapoints
@@ -221,12 +221,12 @@ class MapSetData extends Component {
 
     // Invoked immediately after the component is mounted
     componentDidMount() {
-        this.colourIt;
+        this.colourIt();
     };
 
     // Invoked immediately after updating occurs
     componentDidUpdate() {
-        this.colourIt;
+        this.colourIt();
     };
 
     // Colours the country-name by manipulating the DOM post-render
