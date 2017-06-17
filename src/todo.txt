@@ -1,0 +1,4 @@
+datatype problem: double in array index where keyvalue resides is read as NaN when props are received
+
+can props be handled directly?
+or must they be set as state?

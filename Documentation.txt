@@ -1,9 +1,72 @@
-'let' is used to keep variables local
-'var' is used to make variables global
+---- DIRECTORY LAYOUT ----
+
+Each app panel should have its sub-components nested within a sub-directory
+
+---- COMPONENTS ----
+
+App     // entry point for app
+    Map     // parent for map tool
+        MapData     // parent for map's data handling
+            MapCallData     // call's and passes map data
+                MapWorkData     // assesses data
+                    MapSetData      // set's data onto map
+        MapMenu     // parent for map's menu
+
+
+---- SYNTAX ----
+
+// 'let' is used to set variables local
+    let call = new XMLHttpRequest();
+// 'var' is used to set variables global
+    var cleanedDataSetCurrent = [];
 
 // This is a fat arrow function
-// This example is parameterless
-// It is a cleaner function syntax
-functionName = () => {
+// It is parameterless
+// It is a cleaner function syntax:
+    functionName = () => {
 
-}
+    }
+
+// Curly braces {} around code tell the browser to handle the code as JSX
+// Javascript within a return method/function (which one?) should have this
+
+// In React, JS's 'this' syntax is used differently than in traditional JS
+// We bind functions to their local component using 'this'
+// This is done so that function callbacks can be implemented, I think?
+// Mostly it just makes it clear that anything with 'this' in front of it
+// Is property of the component class and not the object it was called within
+    this.function = this.function.bind(this);
+
+---- EXTERNAL DATA ----
+
+// Data is called from source API using XMLHttpRequest()
+// Data arrives as JSON string
+// Data is parsed
+// Data is accessed by specifying location of target data within array
+
+---- INTERNAL DATA ----
+
+// Data is passed from a parent component to its child via props
+// Props are passed in within the parent's return() function
+// Props are received when the child component is loaded
+// I believe that props should be set as state
+// Before being handled by the child component
+// Either way, I haven't done this
+// As see in <MapWorkData /> where props are handled directly
+
+---- VISUALIZATION ----
+
+
+
+---- BOOTSTRAP ----
+
+// Bootstrap's grid layout is used to arrange HTML elements
+// This app is being prototyped as a web technology
+// Because that's all I know how to do
+// But its future is as a mobile app and desktop tool
+// This is why grid sizing will be specified for mobile (xs)
+// And tablet or larger screens (md)
+    container-fluid
+        row
+            col-xs-12
+// Bootstrap's components will eventually be implemented

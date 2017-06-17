@@ -2,41 +2,10 @@
 import React, { Component } from "react";
 
 // Import components and objects
-import {APIarray} from "./APIarray";
+import {APIarray} from "../APIarray";
 
 // Import styling
-import "./App.css";
-
-
-/*
-    * Map.
-    * Renders <Map />
-    *   which is a return of <MapData />
-    * Called by <App />
-    * No props.
-    * No state.
-*/
-export class Map extends Component {
-
-    // Stateless and functionless constructor for <Map />
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    };
-
-    // Renders <MapData />
-    render() {
-        return (
-            <div className="row">
-                <div className="col-xs-12 col-md-8">
-                    <MapData />
-                </div>
-            </div>
-        );
-    };
-}
-
+import "../App.css";
 
 /*
     * MapData.
@@ -111,7 +80,7 @@ class MapCallData extends Component {
         var cleanedDataSetPrevious = [];
 
         // Fires the XHR when the loading state of the document changes
-        // This is a parameterless fat-arrow function
+        // Parameterless fat-arrow function
         call.onreadystatechange = () => {
             // If (XHR is finished and response is ready) and (status is ok)
             if (call.readyState === 4 && call.status === 200) {
@@ -119,8 +88,8 @@ class MapCallData extends Component {
                 let dataArray = JSON.parse(call.responseText);
 
                 // Access the most recent datapoint in the dataArray
-                // This access method (.dataset.data[][]) is not sustainable,
-                //   as it is written specifically for Quandl's data structure
+                // This method of access (.dataset.data[][]) is not sustainable,
+                // as it is written specifically for Quandl's data structure
                 let cleanedDataKeyCurrent = dataArray.dataset.data[0][0];
                 let cleanedDataValueCurrent = dataArray.dataset.data[0][1];
                 // Store the current dataKey and dataValue into a single array
@@ -180,7 +149,9 @@ class MapWorkData extends Component {
 
         // State for growth rate between current and previous datapoints
         this.state = {
-            dataGrowth: 0.00
+            dataGrowth: 0.00,
+            dataSetCurrent: this.props.dataSetCurrent,
+            dataSetPrevious: this.props.dataSetPrevious
         };
 
         // Binds reference to this to member functions
@@ -189,24 +160,30 @@ class MapWorkData extends Component {
 
     // Invoked immediately after the component is mounted
     componentDidMount() {
+        // This function call has no parentheses as it appears that JS calls the function
+        // as soon as it is read, even if componentDidMount is false
+        // The order in which JS is called is not fully understood
         this.workData;
         console.log(this.state.dataGrowth);
     };
 
     // Invoked immediately after updating occurs
+    // Updating occurs when updated props are received
+    // Updated props are received when <MapCallData /> updates its state
     componentDidUpdate() {
         this.workData;
     };
 
     // Calculates growth rate between current and previous datapoints
     workData = () => {
-        console.log(this.props.dataSetCurrent[1]);
+        console.log(this.state.dataSetCurrent[1]);
         // (Y2-Y1)/Y1
-        let dataGrowth = ((this.props.dataSetCurrent[1] - this.props.dataSetPrevious[1]) / this.props.dataSetPrevious[1]);
+        let dataGrowth = ((this.state.dataSetCurrent[1] - this.state.dataSetPrevious[1]) / this.state.dataSetPrevious[1]);
+        // Represent with 2 decimal places
+        dataGrowth = dataGrowth.toFixed(2);
         // Represent as percent
         dataGrowth = (dataGrowth * 100);
         console.log(dataGrowth);
-        dataGrowth = dataGrowth.toFixed(2);
 
         this.setState({
             dataGrowth: dataGrowth
@@ -287,4 +264,4 @@ class MapSetData extends Component {
     };
 }
 
-export default Map;
+export default MapData;

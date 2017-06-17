@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 
 // Import component classes
-import { Map } from "./Map.js";
+import { Map } from "./Map/Map.js";
 
 // Import styling
 import "./App.css";
@@ -14,9 +14,6 @@ class App extends Component {
         return (
             <div id="global">
                 <Map />
-                {/*
-                <Panel />
-                */}
             </div>
         );
     }
