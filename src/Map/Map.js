@@ -15,8 +15,9 @@ import "../App.css";
     *   which is a return of
     *   <MapData /> and <MapMenu />
     * Called by <App />
-    * No props.
+    * No props received.
     * No state.
+    * No props passed.
 */
 export class Map extends Component {
 

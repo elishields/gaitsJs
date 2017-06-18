@@ -12,8 +12,9 @@ import "../App.css";
     * Renders <MapData />
     *   which is a return of <MapCallData />
     * Called by <Map />
-    * No props.
+    * No props received.
     * No state.
+    * No props passed.
 */
 export class MapData extends Component {
 
@@ -39,9 +40,12 @@ export class MapData extends Component {
     * Renders <MapCallData />
     *   which calls data from Quandl's API,
     *   sets the data as state,
-    *   passes the state as props into <MapSetData />
-    *   and renders <MapSetData />
+    *   passes the state as props into <MapWorkData />
+    *   and renders <MapWorkData />
     * Called by <MapData />
+    * No props received.
+    * State is used to manage called data.
+    * Props are passed into <MapWorkData />
 */
 class MapCallData extends Component {
 
@@ -141,6 +145,9 @@ class MapCallData extends Component {
     *   and renders <MapSetData /> with this modified data
     *   passed in as props.
     * Called by <MapCallData /> with props passed.
+    * Props received.
+    * State is set to store data handling.
+    * State is passed into <MapSetData /> as props.
 */
 class MapWorkData extends Component {
 

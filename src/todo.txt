@@ -2,3 +2,9 @@ datatype problem: double in array index where keyvalue resides is read as NaN wh
 
 can props be handled directly?
 or must they be set as state?
+
+App updates continuously, even when new data hasn't been called.
+This is likely caused by <MapWorkData /> or <MapSetData />.
+Could be the componentDidMount or componentDidUpdate event handlers.
+But I'm pretty sure I took out the parentheses from the workData function call
+    and the app continued to update repeatedly.
