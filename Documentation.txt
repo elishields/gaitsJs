@@ -1,6 +1,15 @@
+---- APP ----
+
+Visualizes economic data onto a world map.
+User's request data from pre-listed filters.
+Calls custom data from public data source API's.
+Arranges the data to be projected onto the map in view.
+Calculates standard statistics for each dataset to inform relative representation.
+Built in ReactJS for web. To be built for iPhone next.
+
 ---- DIRECTORY LAYOUT ----
 
-Each app panel should have its sub-components nested within a sub-directory
+Each app panel should have its sub-components nested within a sub-directory.
 
 ---- COMPONENTS ----
 
@@ -11,7 +20,6 @@ App     // entry point for app
                 MapWorkData     // assesses data
                     MapSetData      // set's data onto map
         MapMenu     // parent for map's menu which controls data filtering
-
 
 ---- SYNTAX ----
 

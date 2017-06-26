@@ -1,10 +1,17 @@
-datatype problem: double in array index where keyvalue resides is read as NaN when props are received
+---- EXTERNAL DATA ----
 
-can props be handled directly?
-or must they be set as state?
+Dataset's will have different naming and structure.
+Accessing JSON array will need to be customized for each dataset.
+
+---- INTERNAL DATA ----
+
+datatype problem: double in array index where keyvalue resides is read as NaN when props are received
 
 App updates continuously, even when new data hasn't been called.
 This is likely caused by <MapWorkData /> or <MapSetData />.
 Could be the componentDidMount or componentDidUpdate event handlers.
 But I'm pretty sure I took out the parentheses from the workData function call
     and the app continued to update repeatedly.
+
+can props be handled directly?
+or must they be set as state?

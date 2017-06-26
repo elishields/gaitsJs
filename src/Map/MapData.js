@@ -9,9 +9,9 @@ import "../App.css";
 
 /*
     * MapData.
+    * Called by <Map />
     * Renders <MapData />
     *   which is a return of <MapCallData />
-    * Called by <Map />
     * No props received.
     * No state.
     * No props passed.
@@ -40,8 +40,8 @@ export class MapData extends Component {
     * Renders <MapCallData />
     *   which calls data from Quandl's API,
     *   sets the data as state,
-    *   passes the state as props into <MapWorkData />
-    *   and renders <MapWorkData />
+    *   renders <MapWorkData />,
+    *   and passes in state as props into <MapWorkData />
     * Called by <MapData />
     * No props received.
     * State is used to manage called data.
@@ -92,7 +92,7 @@ class MapCallData extends Component {
                 let dataArray = JSON.parse(call.responseText);
 
                 // Access the most recent datapoint in the dataArray
-                // This method of access (.dataset.data[][]) is not sustainable,
+                // This method of access (.dataset.data[][]) is not scalable,
                 // as it is written specifically for Quandl's data structure
                 let cleanedDataKeyCurrent = dataArray.dataset.data[0][0];
                 let cleanedDataValueCurrent = dataArray.dataset.data[0][1];
