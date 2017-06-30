@@ -94,9 +94,10 @@ class MapCallData extends Component {
                 // Access the most recent datapoint in the dataArray
                 // This method of access (.dataset.data[][]) is not scalable,
                 // as it is written specifically for Quandl's data structure
+                // DataKey is date and DataValue is quantity
                 let cleanedDataKeyCurrent = dataArray.dataset.data[0][0];
                 let cleanedDataValueCurrent = dataArray.dataset.data[0][1];
-                // Store the current dataKey and dataValue into a single array
+                // Store the current DataKey and DataValue into a single array
                 cleanedDataSetCurrent = [cleanedDataKeyCurrent, cleanedDataValueCurrent];
 
                 // Access the previous datapoint in the dataArray
@@ -113,7 +114,9 @@ class MapCallData extends Component {
             }
         };
 
+        // Open XHR
         call.open("GET", url, true);
+        // Send XHR
         call.send();
     };
 
@@ -144,7 +147,7 @@ class MapCallData extends Component {
     *   which modifies the data called in <MapCallData />
     *   and renders <MapSetData /> with this modified data
     *   passed in as props.
-    * Called by <MapCallData /> with props passed.
+    * Called by <MapCallData /> with props passed down.
     * Props received.
     * State is set to store data handling.
     * State is passed into <MapSetData /> as props.
@@ -156,7 +159,9 @@ class MapWorkData extends Component {
 
         // State for growth rate between current and previous datapoints
         this.state = {
+            // To be recalculated by workData() using next two state variables
             dataGrowth: 0.00,
+            // Sets local state from received props
             dataSetCurrent: this.props.dataSetCurrent,
             dataSetPrevious: this.props.dataSetPrevious
         };
@@ -171,7 +176,6 @@ class MapWorkData extends Component {
         // as soon as it is read, even if componentDidMount is false
         // The order in which JS is called is not fully understood
         this.workData();
-        console.log(this.state.dataGrowth);
     };
 
     // Invoked immediately after updating occurs
