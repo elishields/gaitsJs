@@ -2,47 +2,21 @@
 import React, { Component } from "react";
 
 // Import components and objects
-import {APIarray} from "./APIarray";
+// import { APIarray } from "../APIarray";
 
 // Import styling
-import "./App.css";
-
-
-/*
-    * Map.
-    * Renders <Map />
-    *   which is a return of <MapData />
-    * Called by <App />
-    * No props.
-    * No state.
-*/
-export class Map extends Component {
-
-    // Stateless and functionless constructor for <Map />
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    };
-
-    // Renders <MapData />
-    render() {
-        return (
-            <MapData />
-        );
-    };
-}
-
+import "../App.css";
 
 /*
     * MapData.
+    * Called by <Map />
     * Renders <MapData />
     *   which is a return of <MapCallData />
-    * Called by <Map />
-    * No props.
+    * No props received.
     * No state.
+    * No props passed.
 */
-class MapData extends Component {
+export class MapData extends Component {
 
     // Stateless and functionless constructor for <MapData />
     constructor(props) {
@@ -66,9 +40,12 @@ class MapData extends Component {
     * Renders <MapCallData />
     *   which calls data from Quandl's API,
     *   sets the data as state,
-    *   passes the state as props into <MapSetData />
-    *   and renders <MapSetData />
+    *   renders <MapWorkData />,
+    *   and passes in state as props into <MapWorkData />
     * Called by <MapData />
+    * No props received.
+    * State is used to manage called data.
+    * Props are passed into <MapWorkData />
 */
 class MapCallData extends Component {
 
@@ -76,6 +53,7 @@ class MapCallData extends Component {
         super(props);
 
         // State for current and previous datapoints
+        // State as array type
         this.state = {
             dataSetCurrent: [],
             dataSetPrevious: []
@@ -85,12 +63,12 @@ class MapCallData extends Component {
         this.callData = this.callData.bind(this);
     };
 
-    // Calls data from Quandl API
+    // Calls JSON data from Quandl API
     // Sets the data into <MapCallData /> state
     callData = () => {
         // New object instance of XMLHttpRequest (XHR)
         let call = new XMLHttpRequest();
-        // String array of URL's to access Quandl's API
+        // Array of string URL's to access Quandl's API
         let urlArray = [
             "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01",
             "https://www.quandl.com/api/v3/datasets/FRED/CPIUFDSL.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=quarterly&start_date=2016-04-01",
@@ -106,7 +84,7 @@ class MapCallData extends Component {
         var cleanedDataSetPrevious = [];
 
         // Fires the XHR when the loading state of the document changes
-        // This is a parameterless fat-arrow function
+        // Parameterless fat-arrow function
         call.onreadystatechange = () => {
             // If (XHR is finished and response is ready) and (status is ok)
             if (call.readyState === 4 && call.status === 200) {
@@ -114,11 +92,12 @@ class MapCallData extends Component {
                 let dataArray = JSON.parse(call.responseText);
 
                 // Access the most recent datapoint in the dataArray
-                // This access method (.dataset.data[][]) is not sustainable,
-                //   as it is written specifically for Quandl's data structure
+                // This method of access (.dataset.data[][]) is not scalable,
+                // as it is written specifically for Quandl's data structure
+                // DataKey is date and DataValue is quantity
                 let cleanedDataKeyCurrent = dataArray.dataset.data[0][0];
                 let cleanedDataValueCurrent = dataArray.dataset.data[0][1];
-                // Store the current dataKey and dataValue into a single array
+                // Store the current DataKey and DataValue into a single array
                 cleanedDataSetCurrent = [cleanedDataKeyCurrent, cleanedDataValueCurrent];
 
                 // Access the previous datapoint in the dataArray
@@ -132,10 +111,13 @@ class MapCallData extends Component {
                     dataSetCurrent: cleanedDataSetCurrent,
                     dataSetPrevious: cleanedDataSetPrevious
                 });
+                console.log(this.state.dataSetCurrent);
             }
         };
 
+        // Open XHR
         call.open("GET", url, true);
+        // Send XHR
         call.send();
     };
 
@@ -166,7 +148,10 @@ class MapCallData extends Component {
     *   which modifies the data called in <MapCallData />
     *   and renders <MapSetData /> with this modified data
     *   passed in as props.
-    * Called by <MapCallData /> with props passed.
+    * Called by <MapCallData /> with props passed down.
+    * Props received.
+    * State is set to store data handling.
+    * State is passed into <MapSetData /> as props.
 */
 class MapWorkData extends Component {
 
@@ -175,7 +160,11 @@ class MapWorkData extends Component {
 
         // State for growth rate between current and previous datapoints
         this.state = {
-            dataGrowth: 0.00
+            // To be recalculated by workData() using next two state variables
+            dataGrowth: 0.00,
+            // Sets local state from received props
+            dataSetCurrent: this.props.dataSetCurrent,
+            dataSetPrevious: this.props.dataSetPrevious
         };
 
         // Binds reference to this to member functions
@@ -184,21 +173,29 @@ class MapWorkData extends Component {
 
     // Invoked immediately after the component is mounted
     componentDidMount() {
+        // This function call has no parentheses as it appears that JS calls the function
+        // as soon as it is read, even if componentDidMount is false
+        // The order in which JS is called is not fully understood
         this.workData();
-        console.log(this.state.dataGrowth);
     };
 
     // Invoked immediately after updating occurs
+    // Updating occurs when updated props are received
+    // Updated props are received when <MapCallData /> updates its state
     componentDidUpdate() {
         this.workData();
     };
 
     // Calculates growth rate between current and previous datapoints
     workData = () => {
-        console.log(this.props.dataSetCurrent[1]);
-        let dataGrowth = (((this.props.dataSetCurrent[1] - this.props.dataSetPrevious[1]) / this.props.dataSetPrevious[1]) * 100);
-        console.log(dataGrowth);
+        console.log(this.state.dataSetCurrent[1]);
+        // (Y2-Y1)/Y1
+        let dataGrowth = ((this.state.dataSetCurrent[1] - this.state.dataSetPrevious[1]) / this.state.dataSetPrevious[1]);
+        // Represent with 2 decimal places
         dataGrowth = dataGrowth.toFixed(2);
+        // Represent as percent
+        dataGrowth = (dataGrowth * 100);
+        console.log(dataGrowth);
 
         this.setState({
             dataGrowth: dataGrowth
@@ -264,7 +261,7 @@ class MapSetData extends Component {
         }
 
         // Manipulates DOm
-        document.getElementById("usa").style.color = colour
+        document.getElementById("usa").style.color = colour;
         console.log("colourit ran");
     };
 
@@ -279,4 +276,4 @@ class MapSetData extends Component {
     };
 }
 
-export default Map;
+export default MapData;
