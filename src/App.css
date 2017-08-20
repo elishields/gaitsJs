@@ -1,15 +1,15 @@
 #global {
     font-family: "Courier New", serif;
-    margin: 25% auto;
+    margin: 5%;
     text-align: center;
     font-size: 1.5em;
-    color: rgb(70, 125, 162);
+    color: black;
 }
 
-.table {
-    border: 1px solid #21c0c0;
-    border-collapse: collapse;
-    text-align: center;
-    font-size: 1.1em;
-    margin: 10% auto;
+#grid-table {
+    border: 2px solid black;
+
+    text-align: left;
+    font-size: 1em;
+
 }

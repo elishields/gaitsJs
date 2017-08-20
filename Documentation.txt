@@ -21,6 +21,14 @@ App     // entry point for app
                     MapSetData      // set's data onto map
         MapMenu     // parent for map's menu which controls data filtering
 
+App
+    Grid
+        GridData
+            GridDataOptions
+                GridDataCall
+                    GridDataProcess
+                        GridDataDisplay
+
 ---- SYNTAX ----
 
 'let' is used to set variables local

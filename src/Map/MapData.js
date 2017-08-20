@@ -111,6 +111,7 @@ class MapCallData extends Component {
                     dataSetCurrent: cleanedDataSetCurrent,
                     dataSetPrevious: cleanedDataSetPrevious
                 });
+                console.log(this.state.dataSetCurrent);
             }
         };
 
