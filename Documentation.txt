@@ -23,11 +23,8 @@ App     // entry point for app
 
 App
     Grid
-        GridData
-            GridDataOptions
-                GridDataCall
-                    GridDataProcess
-                        GridDataDisplay
+        GridLayout      // structures page
+            GridData    // calls and handles data
 
 ---- SYNTAX ----
 

@@ -11,13 +11,11 @@ import "../App.css";
 
 /*
     * Map.
-    * Renders <Map />
-    *   which is a return of
-    *   <MapData /> and <MapMenu />
-    * Called by <App />
-    * No props received.
-    * No state.
-    * No props passed.
+    * Called By: <App />
+    * Returns: <MapData /> and <MapMenu />
+    * Props In: none
+    * State: none
+    * Props Out: none
 */
 export class Map extends Component {
 
@@ -31,11 +29,9 @@ export class Map extends Component {
     // Renders <MapData />
     render() {
         return (
-            <div className="row">
-                <div className="col-xs-12 col-md-8">
-                    <MapData />
-                    <MapMenu />
-                </div>
+            <div>
+                <MapData />
+                <MapMenu />
             </div>
         )
     };

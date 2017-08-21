@@ -8,12 +8,16 @@ import React, { Component } from "react";
 import "../App.css";
 
 /*
- * Grid.
- * Page component for app.
- */
+ * Grid
+ * Main page component
+ * Called By:   <App />
+ * Returns:     <GridLayout />
+ * Props In:    none
+ * State:       none
+ * Props Out:   none
+*/
 export class Grid extends Component {
 
-    // Stateless and functionless constructor for <Grid />
     constructor(props) {
         super(props);
         this.state = {
@@ -22,82 +26,75 @@ export class Grid extends Component {
 
     render() {
         return (
-            <GridData />
+            <GridLayout />
         )
     };
 }
 
 /*
- * GridData.
+ * GridLayout
+ * Structures page elements
+ * Called By:   <Grid />
+ * Returns:     <GridData />
+ * Props In:    none
+ * State:       none
+ * Props Out:   none
  */
-class GridData extends Component {
+class GridLayout extends Component {
 
-    // Stateless and functionless constructor for <GridData />
     constructor(props) {
         super(props);
         this.state = {
-        };
-    };
-
-    render() {
-        return (
-            <GridDataOptions />
-        )
-    };
-}
-
-/*
- * GridDataOptions.
- */
-class GridDataOptions extends Component {
-
-    // Stateless and functionless constructor for <GridDataOptions />
-    constructor(props) {
-        super(props);
-        this.state = {
-            get: []
         };
     };
 
     render() {
         return (
             <div>
-                <button onClick={this.callData}>
-                    Call data!
-                </button>
-                <GridDataCall
-                    get={this.state.get}
-                />
+                <table>
+                    <tr>
+                        <td>GDP</td>
+                        <td>
+                            <GridData />
+                        </td>
+                    </tr>
+                </table>
             </div>
         )
     };
 }
 
 /*
- * GridDataCall.
+ * GridData
+ * Calls and handles data
+ * Called By:   <GridLayout />
+ * Returns:     <GridDataPrint />
+ * Props In:    none
+ * State:       gdp
+ * Props Out:   gdp
  */
-class GridDataCall extends Component {
+class GridData extends Component {
 
-    // State and function constructor for <GridDataCall />
     constructor(props) {
         super(props);
         this.state = {
-            goldPrice: 0
+            gdp: 0
         };
 
-        // Binds reference to this to member functions
+        // Binds reference to "this" to member functions of GridData class
         this.callData = this.callData.bind(this);
     };
 
     // Calls JSON data from Quandl API
-    // Sets the data into <CallData /> state
+    // Sets the data into <GridData /> state
     callData = () => {
+
         // New object instance of XMLHttpRequest (XHR)
         let call = new XMLHttpRequest();
-        // Array of string URL's to access Quandl's API
+        // URL to access GDP data from Quandl's API
         let url = "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01";
 
-        // Fires the XHR when the loading state of the document changes
+        // Fires the XHR when the loading state of the page is ready
         // Parameterless fat-arrow function
         call.onreadystatechange = () => {
             // If (XHR is finished and response is ready) and (status is ok)
@@ -107,13 +104,12 @@ class GridDataCall extends Component {
 
                 // Access the most recent datapoint in the dataArray
                 // This method of access (.dataset.data[][]) is not scalable,
-                // as it is written specifically for Quandl's data structure
-                // DataKey is date and DataValue is quantity
-                let goldPrice = dataArray.dataset.data[0][0];
+                //     as it is written specifically for Quandl's data structure
+                let gdp = dataArray.dataset.data[0][0];
 
-                // Set datapoint arrays as state of <MapCallData />
+                // Set datapoint arrays into state of <GridData />
                 this.setState({
-                    goldPrice: 1
+                    gdp: gdp
                 });
             }
         };
@@ -124,56 +120,41 @@ class GridDataCall extends Component {
         call.send();
     };
 
+    componentDidMount() {
+        this.callData
+    };
+
     render() {
         return (
-            <GridDataProcess
-                goldPrice={this.state.goldPrice}
+            <GridDataPrint
+                gdp={this.state.gdp}
             />
         )
     };
 }
 
 /*
- * GridDataProcess.
+ * GridDataPrint
+ * Main page component.
+ * Called By:   <GridData />
+ * Returns:     target data
+ * Props In:    gdp
+ * State:       gdp
+ * Props Out:   none
  */
-class GridDataProcess extends Component {
+class GridDataPrint extends Component {
 
-    // Stateless and functionless constructor for <GridDataProcess />
     constructor(props) {
         super(props);
         this.state = {
-            goldPrice: this.props.goldPrice
-        };
-    };
-
-    render() {
-        return (
-            <GridDataDisplay
-                goldPrice={this.state.goldPrice}
-            />
-        )
-    };
-}
-
-class GridDataDisplay extends Component {
-
-    // Constructor for <GridDataDisplay />
-    constructor(props) {
-        super(props);
-        this.state = {
-            goldPrice: this.props.goldPrice
+            gdp: this.props.gdp
         };
     };
 
     render() {
         return (
             <div>
-                <table id="grid-table">
-                    <tr>
-                        <td>Gold</td>
-                        <td>{this.state.goldPrice}</td>
-                    </tr>
-                </table>
+                {this.state.gdp}
             </div>
         )
     };
