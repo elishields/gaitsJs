@@ -189,7 +189,7 @@ class GridLayout extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <td>CAN GDP Y/Y&#916;</td>
+                            <td>CHN GDP Y/Y&#916;</td>
                             <td>
                                 {this.props.canData}
                             </td>
