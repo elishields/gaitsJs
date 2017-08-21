@@ -20,7 +20,9 @@ export class Grid extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
+
         };
     };
 
@@ -33,7 +35,7 @@ export class Grid extends Component {
 
 /*
  * GridLayout
- * Structures page elements
+ * Structures page elements as table
  * Called By:   <Grid />
  * Returns:     <GridData />
  * Props In:    none
@@ -44,7 +46,9 @@ class GridLayout extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
+
         };
     };
 
@@ -77,6 +81,7 @@ class GridData extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             gdp: 0
         };
@@ -103,14 +108,16 @@ class GridData extends Component {
                 let dataArray = JSON.parse(call.responseText);
 
                 // Access the most recent datapoint in the dataArray
+                //     (key at [0], value at [1])
                 // This method of access (.dataset.data[][]) is not scalable,
                 //     as it is written specifically for Quandl's data structure
-                let gdp = dataArray.dataset.data[0][0];
+                let gdp = dataArray.dataset.data[0][1];
 
                 // Set datapoint arrays into state of <GridData />
                 this.setState({
                     gdp: gdp
                 });
+                console.log("GridData state of gdp set as " + gdp);
             }
         };
 
@@ -118,10 +125,12 @@ class GridData extends Component {
         call.open("GET", url, true);
         // Send XHR
         call.send();
+        console.log("XHR SENT");
     };
 
     componentDidMount() {
-        this.callData
+        this.callData();
+        console.log("GridData mounted and callData ran");
     };
 
     render() {
@@ -137,9 +146,9 @@ class GridData extends Component {
  * GridDataPrint
  * Main page component.
  * Called By:   <GridData />
- * Returns:     target data
+ * Returns:     props.gdp received from GridData
  * Props In:    gdp
- * State:       gdp
+ * State:       none
  * Props Out:   none
  */
 class GridDataPrint extends Component {
@@ -147,14 +156,14 @@ class GridDataPrint extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            gdp: this.props.gdp
+
         };
     };
 
     render() {
         return (
             <div>
-                {this.state.gdp}
+                {this.props.gdp}
             </div>
         )
     };
