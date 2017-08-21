@@ -8,12 +8,42 @@ import React, { Component } from "react";
 import "../App.css";
 
 /*
- * Grid.
- * Page component for app.
- */
+ * Grid
+ * Main page component
+ * Called By:   <App />
+ * Returns:     <GridLayout />
+ * Props In:    none
+ * State:       none
+ * Props Out:   none
+*/
 export class Grid extends Component {
 
     // Stateless and functionless constructor for <Grid />
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+    };
+
+    render() {
+        return (
+            <GridLayout />
+        )
+    };
+}
+
+/*
+ * GridLayout
+ * Structures page elements
+ * Called By:   <Grid />
+ * Returns:     <GridData />
+ * Props In:    none
+ * State:       none
+ * Props Out:   none
+ */
+class GridLayout extends Component {
+
+    // Stateless and functionless constructor for <GridLayout />
     constructor(props) {
         super(props);
         this.state = {
@@ -28,28 +58,15 @@ export class Grid extends Component {
 }
 
 /*
- * GridData.
+ * GridData
+ * Calls and handles data
+ * Called By:   <GridLayout />
+ * Returns:     <GridDataPrint />
+ * Props In:    none
+ * State:       none
+ * Props Out:   none
  */
 class GridData extends Component {
-
-    // Stateless and functionless constructor for <GridData />
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    };
-
-    render() {
-        return (
-            <GridDataOptions />
-        )
-    };
-}
-
-/*
- * GridDataOptions.
- */
-class GridDataOptions extends Component {
 
     // Stateless and functionless constructor for <GridDataOptions />
     constructor(props) {
@@ -58,25 +75,6 @@ class GridDataOptions extends Component {
             get: []
         };
     };
-
-    render() {
-        return (
-            <div>
-                <button onClick={this.callData}>
-                    Call data!
-                </button>
-                <GridDataCall
-                    get={this.state.get}
-                />
-            </div>
-        )
-    };
-}
-
-/*
- * GridDataCall.
- */
-class GridDataCall extends Component {
 
     // State and function constructor for <GridDataCall />
     constructor(props) {
@@ -126,6 +124,19 @@ class GridDataCall extends Component {
 
     render() {
         return (
+            <div>
+                <button onClick={this.callData}>
+                    Call data!
+                </button>
+                <GridDataCall
+                    get={this.state.get}
+                />
+            </div>
+        )
+    };
+
+    render() {
+        return (
             <GridDataProcess
                 goldPrice={this.state.goldPrice}
             />
@@ -134,28 +145,15 @@ class GridDataCall extends Component {
 }
 
 /*
- * GridDataProcess.
+ * GridDataPrint
+ * Main page component.
+ * Called By:   <GridData />
+ * Returns:     target data
+ * Props In:    none
+ * State:       none
+ * Props Out:   none
  */
-class GridDataProcess extends Component {
-
-    // Stateless and functionless constructor for <GridDataProcess />
-    constructor(props) {
-        super(props);
-        this.state = {
-            goldPrice: this.props.goldPrice
-        };
-    };
-
-    render() {
-        return (
-            <GridDataDisplay
-                goldPrice={this.state.goldPrice}
-            />
-        )
-    };
-}
-
-class GridDataDisplay extends Component {
+class GridDataPrint extends Component {
 
     // Constructor for <GridDataDisplay />
     constructor(props) {
