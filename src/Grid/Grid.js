@@ -28,42 +28,7 @@ export class Grid extends Component {
 
     render() {
         return (
-            <GridLayout />
-        )
-    };
-}
-
-/*
- * GridLayout
- * Structures page elements as table
- * Called By:   <Grid />
- * Returns:     <GridData />
- * Props In:    none
- * State:       none
- * Props Out:   none
- */
-class GridLayout extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-
-        };
-    };
-
-    render() {
-        return (
-            <div>
-                <table>
-                    <tr>
-                        <td>GDP</td>
-                        <td>
-                            <GridData /> &#37;
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <GridData />
         )
     };
 }
@@ -71,8 +36,8 @@ class GridLayout extends Component {
 /*
  * GridData
  * Calls and handles data
- * Called By:   <GridLayout />
- * Returns:     <GridDataPrint />
+ * Called By:   <Grid />
+ * Returns:     <GridLayout />
  * Props In:    none
  * State:       gdp
  * Props Out:   gdp
@@ -83,16 +48,18 @@ class GridData extends Component {
         super(props);
 
         this.state = {
-            gdp: 0
+            usaData: 0,
+            canData: 0
         };
 
         // Binds reference to "this" to member functions of GridData class
-        this.callData = this.callData.bind(this);
+        this.callUsaData = this.callUsaData.bind(this);
+        this.callCanData = this.callCanData.bind(this);
     };
 
     // Calls JSON data from Quandl API
     // Sets the data into <GridData /> state
-    callData = () => {
+    callUsaData = () => {
 
         // New object instance of XMLHttpRequest (XHR)
         let call = new XMLHttpRequest();
@@ -111,16 +78,57 @@ class GridData extends Component {
                 //     (key at [0], value at [1])
                 // This method of access (.dataset.data[][]) is not scalable,
                 //     as it is written specifically for Quandl's data structure
-                let gdp1 = dataArray.dataset.data[1][1];
-                let gdp2 = dataArray.dataset.data[0][1];
-                let gdp = (((gdp2 - gdp1) / gdp1) * 100 );
-                gdp = gdp.toFixed(2);
+                let data1 = dataArray.dataset.data[1][1];
+                let data2 = dataArray.dataset.data[0][1];
+                let data = (((data2 - data1) / data1) * 100 );
+                data = data.toFixed(2);
 
                 // Set datapoint arrays into state of <GridData />
                 this.setState({
-                    gdp: gdp
+                    usaData: data
                 });
-                console.log("GridData state of gdp set as " + gdp);
+                console.log("GridData state of gdp set as " + data);
+            }
+        };
+
+        // Open XHR
+        call.open("GET", url, true);
+        // Send XHR
+        call.send();
+        console.log("XHR SENT");
+    };
+
+    // Calls JSON data from Quandl API
+    // Sets the data into <GridData /> state
+    callCanData = () => {
+
+        // New object instance of XMLHttpRequest (XHR)
+        let call = new XMLHttpRequest();
+        // URL to access GDP data from Quandl's API
+        let url = "https://www.quandl.com/api/v3/datasets/NBSC/A020106_A.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01&end_date=2017-01-01";
+
+        // Fires the XHR when the loading state of the page is ready
+        // Parameterless fat-arrow function
+        call.onreadystatechange = () => {
+            // If (XHR is finished and response is ready) and (status is ok)
+            if (call.readyState === 4 && call.status === 200) {
+                // Parse the JSON responseText from the XHR
+                let dataArray = JSON.parse(call.responseText);
+
+                // Access the most recent datapoint in the dataArray
+                //     (key at [0], value at [1])
+                // This method of access (.dataset.data[][]) is not scalable,
+                //     as it is written specifically for Quandl's data structure
+                let data1 = dataArray.dataset.data[1][1];
+                let data2 = dataArray.dataset.data[0][1];
+                let data = (((data2 - data1) / data1) * 100 );
+                data = data.toFixed(2);
+
+                // Set datapoint arrays into state of <GridData />
+                this.setState({
+                    canData: data
+                });
+                console.log("GridData state of gdp set as " + data);
             }
         };
 
@@ -132,32 +140,35 @@ class GridData extends Component {
     };
 
     componentDidMount() {
-        this.callData();
+        this.callUsaData();
+        this.callCanData();
         console.log("GridData mounted and callData ran");
     };
 
     render() {
         return (
-            <GridDataPrint
-                gdp={this.state.gdp}
+            <GridLayout
+                usaData={this.state.usaData}
+                canData={this.state.canData}
             />
         )
     };
 }
 
 /*
- * GridDataPrint
- * Main page component.
+ * GridLayout
+ * Structures page elements as table
  * Called By:   <GridData />
- * Returns:     props.gdp received from GridData
- * Props In:    gdp
+ * Returns:     props received from <GridData />
+ * Props In:    usaData, canData
  * State:       none
  * Props Out:   none
  */
-class GridDataPrint extends Component {
+class GridLayout extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
 
         };
@@ -166,7 +177,28 @@ class GridDataPrint extends Component {
     render() {
         return (
             <div>
-                {this.props.gdp}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>USA GDP Y/Y&#916;</td>
+                            <td>
+                                {this.props.usaData}
+                            </td>
+                            <td>
+                                &#37;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CAN GDP Y/Y&#916;</td>
+                            <td>
+                                {this.props.canData}
+                            </td>
+                            <td>
+                                &#37;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         )
     };
