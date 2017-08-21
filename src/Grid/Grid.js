@@ -59,7 +59,7 @@ class GridLayout extends Component {
                     <tr>
                         <td>GDP</td>
                         <td>
-                            <GridData />
+                            <GridData /> &#37;
                         </td>
                     </tr>
                 </table>
@@ -97,7 +97,7 @@ class GridData extends Component {
         // New object instance of XMLHttpRequest (XHR)
         let call = new XMLHttpRequest();
         // URL to access GDP data from Quandl's API
-        let url = "https://www.quandl.com/api/v3/datasets/FRED/GDP.json?api_key=s5ww-6M37-ytgpAy2diW&start_date=2016-01-01";
+        let url = "https://www.quandl.com/api/v3/datasets/FRED/GDPCA.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-01-01&end_date=2017-01-01";
 
         // Fires the XHR when the loading state of the page is ready
         // Parameterless fat-arrow function
@@ -111,7 +111,10 @@ class GridData extends Component {
                 //     (key at [0], value at [1])
                 // This method of access (.dataset.data[][]) is not scalable,
                 //     as it is written specifically for Quandl's data structure
-                let gdp = dataArray.dataset.data[0][1];
+                let gdp1 = dataArray.dataset.data[1][1];
+                let gdp2 = dataArray.dataset.data[0][1];
+                let gdp = (((gdp2 - gdp1) / gdp1) * 100 );
+                gdp = gdp.toFixed(2);
 
                 // Set datapoint arrays into state of <GridData />
                 this.setState({
