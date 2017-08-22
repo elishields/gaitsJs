@@ -31,19 +31,47 @@ export class GridLayout extends Component {
             <div>
                 <table>
                     <tbody>
+                        <thead>GDP Y/Y &#916;</thead>
                         <tr>
-                            <td>USA GDP Y/Y&#916;</td>
+                            <td>USA</td>
                             <td>
-                                {this.props.usaData}
+                                {this.props.dataValue1}
                             </td>
                             <td>
                                 &#37;
                             </td>
                         </tr>
                         <tr>
-                            <td>CHN GDP Y/Y&#916;</td>
+                            <td>CAN</td>
                             <td>
-                                {this.props.canData}
+                                {this.props.dataValue2}
+                            </td>
+                            <td>
+                                &#37;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>UK</td>
+                            <td>
+                                {this.props.dataValue3}
+                            </td>
+                            <td>
+                                &#37;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JAP</td>
+                            <td>
+                                {this.props.dataValue4}
+                            </td>
+                            <td>
+                                &#37;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CHN</td>
+                            <td>
+                                {this.props.dataValue5}
                             </td>
                             <td>
                                 &#37;
