@@ -73,6 +73,18 @@ export class GridData extends Component {
                 let dataValue = (((dataCurrent - dataPrevious) / dataPrevious) * 100 );
                 dataValue = dataValue.toFixed(2);
 
+                /*
+                for (i = 0; i < url.length; i++) {
+                    if (whichData === i) {
+                        this.setState({
+                // state probably can't be set with i as var for state
+                // what is better way to do this?
+                            i: dataValue
+                        });
+                    }
+                }
+                */
+
                 // Set datapoint arrays into state of <GridData />
                 // This is a gross chain of if's. Shorten
                 if (whichData === 1) {
