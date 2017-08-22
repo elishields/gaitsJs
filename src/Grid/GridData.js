@@ -74,7 +74,7 @@ export class GridData extends Component {
                 dataValue = dataValue.toFixed(2);
 
                 // Set datapoint arrays into state of <GridData />
-                // This is a gross chain of if's. Rewrite as one
+                // This is a gross chain of if's. Shorten
                 if (whichData === 1) {
                     this.setState({
                         dataValue1: dataValue
@@ -105,6 +105,39 @@ export class GridData extends Component {
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
+
+                /*
+                // This switch block loads data much slower than the block of if's
+                switch(whichData) {
+                    case 1:
+                        this.setState({
+                            dataValue1: dataValue
+                        });
+                        break;
+                    case 2:
+                        this.setState({
+                            dataValue2: dataValue
+                        });
+                        break;
+                    case 3:
+                        this.setState({
+                            dataValue3: dataValue
+                        });
+                        break;
+                    case 4:
+                        this.setState({
+                            dataValue4: dataValue
+                        });
+                        break;
+                    case 5:
+                        this.setState({
+                            dataValue5: dataValue
+                        });
+                        break;
+                    default:
+                        break;
+                }
+                */
             }
         };
 
