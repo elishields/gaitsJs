@@ -58,10 +58,13 @@ export class GridData extends Component {
             // USA_CPI
             "https://www.quandl.com/api/v3/datasets/RATEINF/CPI_USA.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01",
             // GBR_CPI
-            "https://www.quandl.com/api/v3/datasets/RATEINF/CPI_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01"
+            "https://www.quandl.com/api/v3/datasets/RATEINF/CPI_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01",
             // CAN_EQT
+            "https://www.quandl.com/api/v3/datasets/WFE/INDEXES_TMXGROUPSPTSXCOMPOSITE.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01&end_date=2017-01-01",
             // USA_EQT
+            "https://www.quandl.com/api/v3/datasets/LSE/SPY5.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual",
             // GBR_EQT
+            "https://www.quandl.com/api/v3/datasets/WFE/INDEXES_LONDONSEFTSE.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual"
         ];
 
         // Fires the XHR when the loading state of the page is ready
@@ -88,55 +91,55 @@ export class GridData extends Component {
                     this.setState({
                         CAN_GDP: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("CAN_GDP state of gdp set as " + dataValue);
                 }
                 if (whichData === 2) {
                     this.setState({
                         USA_GDP: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("USA_GDP state of gdp set as " + dataValue);
                 }
                 if (whichData === 3) {
                     this.setState({
                         GBR_GDP: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("GBR_GDP state of gdp set as " + dataValue);
                 }
                 if (whichData === 4) {
                     this.setState({
                         CAN_CPI: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("CAN_CPI state of gdp set as " + dataValue);
                 }
                 if (whichData === 5) {
                     this.setState({
                         USA_CPI: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("USA_CPI state of gdp set as " + dataValue);
                 }
                 if (whichData === 6) {
                     this.setState({
                         GBR_CPI: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("GBR_CPI state of gdp set as " + dataValue);
                 }
                 if (whichData === 4) {
                     this.setState({
                         CAN_EQT: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("CAN_EQT state of gdp set as " + dataValue);
                 }
                 if (whichData === 5) {
                     this.setState({
                         USA_EQT: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("USA_EQT state of gdp set as " + dataValue);
                 }
                 if (whichData === 6) {
                     this.setState({
                         GBR_EQT: dataValue
                     });
-                    console.log("GridData state of gdp set as " + dataValue);
+                    console.log("GBR_EQT state of gdp set as " + dataValue);
                 }
             }
         };

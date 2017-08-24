@@ -29,8 +29,15 @@ export class GridLayout extends Component {
     render() {
         return (
             <div>
+                <br/>
                 <table>
-                    <thead>GDP Y/Y &#916;</thead>
+                    <thead>
+                        <tr>
+                            <th>
+                                GDP Y/Y &#916;
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr>
                             <td>USA</td>
@@ -63,7 +70,13 @@ export class GridLayout extends Component {
                 </table>
                 <br/><hr/><br/>
                 <table>
-                    <thead>CPI Y/Y &#916;</thead>
+                    <thead>
+                        <tr>
+                            <th>
+                                CPI Y/Y &#916;
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
                     <tr>
                         <td>USA</td>
@@ -96,7 +109,13 @@ export class GridLayout extends Component {
                 </table>
                 <br/><hr/><br/>
                 <table>
-                    <thead>EQT Y/Y &#916;</thead>
+                    <thead>
+                        <tr>
+                            <th>
+                                EQT Y/Y &#916;
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
                     <tr>
                         <td>USA</td>
