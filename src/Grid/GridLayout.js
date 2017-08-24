@@ -61,6 +61,7 @@ export class GridLayout extends Component {
                         </tr>
                     </tbody>
                 </table>
+                <br/><hr/><br/>
                 <table>
                     <thead>CPI Y/Y &#916;</thead>
                     <tbody>
@@ -86,6 +87,39 @@ export class GridLayout extends Component {
                         <td>GBR</td>
                         <td>
                             {this.props.GBR_CPI}
+                        </td>
+                        <td>
+                            &#37;
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br/><hr/><br/>
+                <table>
+                    <thead>EQT Y/Y &#916;</thead>
+                    <tbody>
+                    <tr>
+                        <td>USA</td>
+                        <td>
+                            {this.props.CAN_EQT}
+                        </td>
+                        <td>
+                            &#37;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CAN</td>
+                        <td>
+                            {this.props.USA_EQT}
+                        </td>
+                        <td>
+                            &#37;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GBR</td>
+                        <td>
+                            {this.props.GBR_EQT}
                         </td>
                         <td>
                             &#37;

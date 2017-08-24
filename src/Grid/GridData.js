@@ -28,7 +28,10 @@ export class GridData extends Component {
             GBR_GDP: 0,
             CAN_CPI: 0,
             USA_CPI: 0,
-            GBR_CPI: 0
+            GBR_CPI: 0,
+            CAN_EQT: 0,
+            USA_EQT: 0,
+            GBR_EQT: 0
         };
 
         // Binds reference to "this" to member functions of GridData class
@@ -49,13 +52,13 @@ export class GridData extends Component {
             // USA_GDP
             "https://www.quandl.com/api/v3/datasets/FRED/GDPCA.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-01-01&end_date=2017-01-01",
             // GBR_GDP
-            "https://www.quandl.com/api/v3/datasets/UNAC/GDPU_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01"
+            "https://www.quandl.com/api/v3/datasets/UNAC/GDPU_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01",
             // CAN_CPI
-
+            "https://www.quandl.com/api/v3/datasets/RATEINF/CPI_CAN.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01",
             // USA_CPI
-
+            "https://www.quandl.com/api/v3/datasets/RATEINF/CPI_USA.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01",
             // GBR_CPI
-            
+            "https://www.quandl.com/api/v3/datasets/RATEINF/CPI_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01"
             // CAN_EQT
             // USA_EQT
             // GBR_EQT
@@ -117,6 +120,24 @@ export class GridData extends Component {
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
+                if (whichData === 4) {
+                    this.setState({
+                        CAN_EQT: dataValue
+                    });
+                    console.log("GridData state of gdp set as " + dataValue);
+                }
+                if (whichData === 5) {
+                    this.setState({
+                        USA_EQT: dataValue
+                    });
+                    console.log("GridData state of gdp set as " + dataValue);
+                }
+                if (whichData === 6) {
+                    this.setState({
+                        GBR_EQT: dataValue
+                    });
+                    console.log("GridData state of gdp set as " + dataValue);
+                }
             }
         };
 
@@ -131,6 +152,12 @@ export class GridData extends Component {
         this.callData(1);
         this.callData(2);
         this.callData(3);
+        this.callData(4);
+        this.callData(5);
+        this.callData(6);
+        this.callData(7);
+        this.callData(8);
+        this.callData(9);
         console.log("GridData mounted and callData ran");
     };
 
@@ -143,6 +170,9 @@ export class GridData extends Component {
                 CAN_CPI={this.state.CAN_CPI}
                 USA_CPI={this.state.USA_CPI}
                 GBR_CPI={this.state.GBR_CPI}
+                CAN_EQT={this.state.CAN_EQT}
+                USA_EQT={this.state.USA_EQT}
+                GBR_EQT={this.state.GBR_EQT}
             />
         )
     };
