@@ -23,11 +23,12 @@ export class GridData extends Component {
         super(props);
 
         this.state = {
-            dataValue1: 0,
-            dataValue2: 0,
-            dataValue3: 0,
-            dataValue4: 0,
-            dataValue5: 0
+            CAN_GDP: 0,
+            USA_GDP: 0,
+            GBR_GDP: 0,
+            CAN_CPI: 0,
+            USA_CPI: 0,
+            GBR_CPI: 0
         };
 
         // Binds reference to "this" to member functions of GridData class
@@ -43,16 +44,21 @@ export class GridData extends Component {
         // URL to access GDP data from Quandl's API
         let url = [
             "",
-            // US GDP
-            "https://www.quandl.com/api/v3/datasets/FRED/GDPCA.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-01-01&end_date=2017-01-01",
-            // CAN GDP
+            // CAN_GDP
             "https://www.quandl.com/api/v3/datasets/OECD/NAAG_CAN_GDPVIXOB.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-01-01&end_date=2017-12-31",
-            // UK GDP
-            "https://www.quandl.com/api/v3/datasets/UNAC/GDPU_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01",
-            // JAP GDP
-            "https://www.quandl.com/api/v3/datasets/UNAE/GDPCN_JPN.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01&end_date=2017-12-31",
-            // CHN GDP
-            "https://www.quandl.com/api/v3/datasets/NBSC/A020106_A.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01&end_date=2017-01-01"
+            // USA_GDP
+            "https://www.quandl.com/api/v3/datasets/FRED/GDPCA.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2015-01-01&end_date=2017-01-01",
+            // GBR_GDP
+            "https://www.quandl.com/api/v3/datasets/UNAC/GDPU_GBR.json?api_key=s5ww-6M37-ytgpAy2diW&collapse=annual&start_date=2014-01-01"
+            // CAN_CPI
+
+            // USA_CPI
+
+            // GBR_CPI
+            
+            // CAN_EQT
+            // USA_EQT
+            // GBR_EQT
         ];
 
         // Fires the XHR when the loading state of the page is ready
@@ -73,83 +79,44 @@ export class GridData extends Component {
                 let dataValue = (((dataCurrent - dataPrevious) / dataPrevious) * 100 );
                 dataValue = dataValue.toFixed(2);
 
-                /*
-                for (i = 0; i < url.length; i++) {
-                    if (whichData === i) {
-                        this.setState({
-                // state probably can't be set with i as var for state
-                // what is better way to do this?
-                            i: dataValue
-                        });
-                    }
-                }
-                */
-
                 // Set datapoint arrays into state of <GridData />
                 // This is a gross chain of if's. Shorten
                 if (whichData === 1) {
                     this.setState({
-                        dataValue1: dataValue
+                        CAN_GDP: dataValue
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
                 if (whichData === 2) {
                     this.setState({
-                        dataValue2: dataValue
+                        USA_GDP: dataValue
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
                 if (whichData === 3) {
                     this.setState({
-                        dataValue3: dataValue
+                        GBR_GDP: dataValue
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
                 if (whichData === 4) {
                     this.setState({
-                        dataValue4: dataValue
+                        CAN_CPI: dataValue
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
                 if (whichData === 5) {
                     this.setState({
-                        dataValue5: dataValue
+                        USA_CPI: dataValue
                     });
                     console.log("GridData state of gdp set as " + dataValue);
                 }
-
-                /*
-                // This switch block loads data much slower than the block of if's
-                switch(whichData) {
-                    case 1:
-                        this.setState({
-                            dataValue1: dataValue
-                        });
-                        break;
-                    case 2:
-                        this.setState({
-                            dataValue2: dataValue
-                        });
-                        break;
-                    case 3:
-                        this.setState({
-                            dataValue3: dataValue
-                        });
-                        break;
-                    case 4:
-                        this.setState({
-                            dataValue4: dataValue
-                        });
-                        break;
-                    case 5:
-                        this.setState({
-                            dataValue5: dataValue
-                        });
-                        break;
-                    default:
-                        break;
+                if (whichData === 6) {
+                    this.setState({
+                        GBR_CPI: dataValue
+                    });
+                    console.log("GridData state of gdp set as " + dataValue);
                 }
-                */
             }
         };
 
@@ -164,19 +131,18 @@ export class GridData extends Component {
         this.callData(1);
         this.callData(2);
         this.callData(3);
-        this.callData(4);
-        this.callData(5);
         console.log("GridData mounted and callData ran");
     };
 
     render() {
         return (
             <GridLayout
-                dataValue1={this.state.dataValue1}
-                dataValue2={this.state.dataValue2}
-                dataValue3={this.state.dataValue3}
-                dataValue4={this.state.dataValue4}
-                dataValue5={this.state.dataValue5}
+                CAN_GDP={this.state.CAN_GDP}
+                USA_GDP={this.state.USA_GDP}
+                GBR_GDP={this.state.GBR_GDP}
+                CAN_CPI={this.state.CAN_CPI}
+                USA_CPI={this.state.USA_CPI}
+                GBR_CPI={this.state.GBR_CPI}
             />
         )
     };

@@ -30,12 +30,12 @@ export class GridLayout extends Component {
         return (
             <div>
                 <table>
+                    <thead>GDP Y/Y &#916;</thead>
                     <tbody>
-                        <thead>GDP Y/Y &#916;</thead>
                         <tr>
                             <td>USA</td>
                             <td>
-                                {this.props.dataValue1}
+                                {this.props.CAN_GDP}
                             </td>
                             <td>
                                 &#37;
@@ -44,39 +44,53 @@ export class GridLayout extends Component {
                         <tr>
                             <td>CAN</td>
                             <td>
-                                {this.props.dataValue2}
+                                {this.props.USA_GDP}
                             </td>
                             <td>
                                 &#37;
                             </td>
                         </tr>
                         <tr>
-                            <td>UK</td>
+                            <td>GBR</td>
                             <td>
-                                {this.props.dataValue3}
+                                {this.props.GBR_GDP}
                             </td>
                             <td>
                                 &#37;
                             </td>
                         </tr>
-                        <tr>
-                            <td>JAP</td>
-                            <td>
-                                {this.props.dataValue4}
-                            </td>
-                            <td>
-                                &#37;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>CHN</td>
-                            <td>
-                                {this.props.dataValue5}
-                            </td>
-                            <td>
-                                &#37;
-                            </td>
-                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>CPI Y/Y &#916;</thead>
+                    <tbody>
+                    <tr>
+                        <td>USA</td>
+                        <td>
+                            {this.props.CAN_CPI}
+                        </td>
+                        <td>
+                            &#37;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CAN</td>
+                        <td>
+                            {this.props.USA_CPI}
+                        </td>
+                        <td>
+                            &#37;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GBR</td>
+                        <td>
+                            {this.props.GBR_CPI}
+                        </td>
+                        <td>
+                            &#37;
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
