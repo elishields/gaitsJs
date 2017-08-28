@@ -1,3 +1,11 @@
+---- ERRORS ----
+To bypass
+    No 'Access-Control-Allow-Origin' header is present on the requested resource.
+Use:
+    chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
+Note:
+    This is not a production fix
+
 ---- EXTERNAL DATA ----
 
 Dataset's will have different naming and structure.
