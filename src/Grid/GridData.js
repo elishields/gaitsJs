@@ -123,19 +123,19 @@ export class GridData extends Component {
                     });
                     console.log("GBR_CPI state of gdp set as " + dataValue);
                 }
-                if (whichData === 4) {
+                if (whichData === 7) {
                     this.setState({
                         CAN_EQT: dataValue
                     });
                     console.log("CAN_EQT state of gdp set as " + dataValue);
                 }
-                if (whichData === 5) {
+                if (whichData === 8) {
                     this.setState({
                         USA_EQT: dataValue
                     });
                     console.log("USA_EQT state of gdp set as " + dataValue);
                 }
-                if (whichData === 6) {
+                if (whichData === 9) {
                     this.setState({
                         GBR_EQT: dataValue
                     });
